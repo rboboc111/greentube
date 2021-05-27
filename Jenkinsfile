@@ -10,6 +10,7 @@ pipeline {
             }
             steps {
                 sh 'echo "Build nodejs app"'
+                sh 'whoami'
                 sh 'docker build . -t rboboc11/greentube -f Dockerfile'
             }
         }
