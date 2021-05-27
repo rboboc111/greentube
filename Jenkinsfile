@@ -25,12 +25,13 @@ pipeline {
                 sh 'docker push rboboc11/greentube:${BRANCH_NAME}_${BUILD_NUMBER}'
             }
         }
-        stage('Deploy'){
+        stage('Push image for production'){
             when{
-                branch 'production' 
+                branch 'master' 
             }
             steps{
-                sh 'echo "Deploy"'
+                sh 'docker build . -t rboboc11/greentube:latest -f Dockerfile"'
+                sh 'docker push rboboc11/greentube:latest'
             }
         }
         }
