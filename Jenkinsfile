@@ -5,9 +5,6 @@ pipeline {
     }
     stages {
         stage('Build') {
-            when{
-                branch 'development'
-            }
             steps {
                 sh 'echo "Build nodejs app"'
                 sh 'whoami'
@@ -15,17 +12,15 @@ pipeline {
             }
         }
         stage('Test') {
-            when{
-                branch 'development'
-            }
             steps {
                 sh 'echo "Test stage"'
-                sh 'docker run -d -p 4000:8080 --name greentube rboboc11/greentube'
+                sh 'docker run -d -p 4000:8080 --name greentube rboboc11/greentube:${BUILD_NUMBER}'
                 sh 'docker exec greentube npm test'
                 sh 'docker kill greentube'
                 sh 'docker rm greentube'
             }
         }
+        stage('Push image ')
         stage('Deploy'){
             when{
                 branch 'production' 
