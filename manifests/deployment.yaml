@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greentube
+  labels:
+    type: test
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 33%
+      maxUnavailable: 33%
+  selector:
+    matchLabels:
+      app: greentube
+  template:
+    metadata:
+      labels:
+        app: greentube
+    spec:
+      containers:
+      - name: greentube
+        image: rboboc11/greentube:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT 
+          valueFrom:
+            configMapKeyRef:
+              name: greentube-cm          
+              key: PORT 
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          failureThreshold: 2
+          periodSeconds: 30
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 200m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 25Mi
