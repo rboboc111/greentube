@@ -1,0 +1,13 @@
+FROM rboboc11/greentube
+
+# Copy the test files
+COPY src/test test
+
+
+# 1. Get test packages; AND
+# 2. Install our test framework - mocha
+RUN npm update && \
+    npm install -g mocha
+
+# Override the command, to run the test instead of the application
+CMD ["mocha", "test/test.js", "--reporter", "spec"]
