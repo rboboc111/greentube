@@ -20,8 +20,10 @@ pipeline {
             }
             steps {
                 sh 'echo "Test stage"'
-                sh 'docker run -d -p 4000:8080 rboboc11/greentube'
-                sh 'docker exec 6fe npm test'
+                sh 'docker run -d -p 4000:8080 --name greentube rboboc11/greentube'
+                sh 'docker exec greentube npm test'
+                sh 'docker kill greentube'
+                sh 'docker rm greentube'
             }
         }
         stage('Deploy'){
