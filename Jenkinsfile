@@ -21,6 +21,7 @@ pipeline {
             steps {
                 sh 'echo "Test stage"'
             }
+        }
         stage('Deploy'){
             when{
                 branch 'production' 
