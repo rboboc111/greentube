@@ -8,7 +8,7 @@ pipeline {
             steps {
                 sh 'echo "Build nodejs app"'
                 sh 'whoami'
-                sh 'docker build . -t rboboc11/greentube -f Dockerfile'
+                sh 'docker build . -t rboboc11/greentube:${BRANCH_NAME}_${BUILD_NUMBER} -f Dockerfile'
             }
         }
         stage('Test') {
