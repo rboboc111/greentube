@@ -30,7 +30,7 @@ pipeline {
                 branch 'master' 
             }
             steps{
-                sh 'docker build . -t rboboc11/greentube:latest -f Dockerfile"'
+                sh 'docker build . -t rboboc11/greentube:latest -f Dockerfile'
                 sh 'docker push rboboc11/greentube:latest'
             }
         }
