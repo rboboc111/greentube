@@ -4,7 +4,7 @@
   "description": "Greentube test",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "mocha --recursive -R xunit test/ > /usr/src/app/test-reports.xml"
   },
   "author": "",
   "license": "ISC",
