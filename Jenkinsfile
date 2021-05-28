@@ -16,6 +16,7 @@ pipeline {
                 sh 'echo "Test stage"'
                 sh 'docker run -d -p 4000:8080 --name greentube rboboc11/greentube:${BRANCH_NAME}_${BUILD_NUMBER}'
                 sh 'docker exec greentube npm test'
+                sh 'docker cp greentube:/usr/src/app/test-reports.xml /var/test-reports.xml' 
                 sh 'docker kill greentube'
                 sh 'docker rm greentube'
             }
@@ -43,6 +44,10 @@ pipeline {
                 to: 'rboboc11@gmail.com',
                 subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
             
+            xunit (
+                thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+                tools: [ BoostTest(pattern: '/var/test-reports.xml') ])
+            )
             }
         }
 }
